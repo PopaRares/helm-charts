@@ -26,10 +26,10 @@ redis:
   customRedisURL: ""
 
 image:
-  repository: mageai/mageai
-  pullPolicy: Always
+  repository: test
+  pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: latest
 
 imagePullSecrets: []
 nameOverride: "mageai"
@@ -154,3 +154,13 @@ extraEnvs:
     valueFrom:
       fieldRef:
         fieldPath: metadata.namespace
+  - name: DEFAULT_ADMIN_EMAIL
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.secrets.mageaiSecret.name }}
+        key: adminEmail
+  - name: DEFAULT_ADMIN_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: {{ .Values.secrets.mageaiSecret.name }}
+        key: adminPassword
